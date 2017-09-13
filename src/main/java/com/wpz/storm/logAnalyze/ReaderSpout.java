@@ -34,7 +34,6 @@ public class ReaderSpout extends BaseRichSpout {
 
     @Override
     public void nextTuple() {
-        //  String uri = "hdfs://master:9000/storm/m.txt";
         String uri = "hdfs://192.168.32.143:9000/storm/app.log";
         InputStream in = null;
         try {
