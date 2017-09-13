@@ -10,6 +10,7 @@ import backtype.storm.utils.Utils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.IOUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -33,7 +34,8 @@ public class ReaderSpout extends BaseRichSpout {
 
     @Override
     public void nextTuple() {
-        String uri = "hdfs://master:9000/storm/m.txt";
+        //  String uri = "hdfs://master:9000/storm/m.txt";
+        String uri = "hdfs://192.168.32.143:9000/storm/app.log";
         InputStream in = null;
         try {
             Configuration conf = new Configuration();
@@ -43,11 +45,12 @@ public class ReaderSpout extends BaseRichSpout {
             String line = null;
             while (null != (line = br.readLine())) {
                 _collector.emit(new Values(line));
+                Utils.sleep(100);
             }
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            org.apache.hadoop.io.IOUtils.closeStream(in);
+            IOUtils.closeStream(in);
         }
     }
 
